@@ -38,17 +38,24 @@ namespace Commodity.type
             DialogResult result = MessageBox.Show("确定删除该类型信息？", "删除", MessageBoxButtons.OKCancel);
             if (result == DialogResult.OK)
             {
-                SqlCommand cmd;
-                SqlConnection conn = new SqlConnection(connectionString);
-                conn.Open();
-                object name;
-                int a = dataGridView1.CurrentRow.Index;
-                name = dataGridView1.Rows[a].Cells[0].Value;
-                Console.WriteLine(name);
-                string sql2 = string.Format("delete from type where tname='{0}'", name);
-                cmd = new SqlCommand(sql2, conn);
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("删除成功！");
+                try
+                {
+                    SqlCommand cmd;
+                    SqlConnection conn = new SqlConnection(connectionString);
+                    conn.Open();
+                    object name;
+                    int a = dataGridView1.CurrentRow.Index;
+                    name = dataGridView1.Rows[a].Cells[0].Value;
+                    Console.WriteLine(name);
+                    string sql2 = string.Format("delete from type where tname='{0}'", name);
+                    cmd = new SqlCommand(sql2, conn);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("删除成功！");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("该类型下有商品，无法删除！");
+                }
             }
             DataGridViewDataLoad();
         }

@@ -55,17 +55,24 @@ namespace Commodity
             DialogResult result = MessageBox.Show("确定删除该商品信息？", "删除", MessageBoxButtons.OKCancel);
             if (result == DialogResult.OK)
             {
-                SqlCommand cmd;
-                SqlConnection conn = new SqlConnection(connectionString);
-                conn.Open();
-                object id;
-                int a = dataGridView1.CurrentRow.Index;
-                id=dataGridView1.Rows[a].Cells[0].Value;
-                Console.WriteLine(id);
-                string sql2 = "delete from commodity where cno=" + id;
-                cmd = new SqlCommand(sql2, conn);
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("删除成功！");
+                try
+                {
+                    SqlCommand cmd;
+                    SqlConnection conn = new SqlConnection(connectionString);
+                    conn.Open();
+                    object id;
+                    int a = dataGridView1.CurrentRow.Index;
+                    id = dataGridView1.Rows[a].Cells[0].Value;
+                    Console.WriteLine(id);
+                    string sql2 = "delete from commodity where cno=" + id;
+                    cmd = new SqlCommand(sql2, conn);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("删除成功！");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("该商品下有订单，无法删除！");
+                }
             }
             DataGridViewDataLoad();
         }
